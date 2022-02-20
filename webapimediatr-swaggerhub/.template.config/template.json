@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Ammar Ahmed",
+  "classifications": [ "webapi", "mediatr", "Web", "API" ],
+  "identity": "WebAPI.With.Mediatr.With.Swaggerhub",
+  "name": "_WebAPI with mediatr with swaggerhub",
+  "description": "Creates a template with configured mediatr pattern with swaggerhub",
+  "shortName": "webapimediatr-swaggerhub",
+  "sourceName" : "TemplateProject",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  }
+}

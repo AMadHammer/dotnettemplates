@@ -1,0 +1,82 @@
+﻿<# /*  Save the file to generate a controller from a resolved swaggerhub json */ #>
+<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ assembly name="System.Text.Json" #>
+<#@ import namespace="System.Text.Json" #>
+<#@ assembly name="Newtonsoft.Json" #>
+<#@ import namespace="Newtonsoft.Json" #>
+<#@ import namespace="Newtonsoft.Json.Linq" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ output extension=".cs" #>
+<# /* ********** This is where you set up the variables ********** */ #>
+<#
+string ControllerName = "TemplateProjectGenerated";
+
+string jsonpath = @"C:\Code\DotNet\ProjectTemplate\dotnettemplates\webapimediatr-swaggerhub\TemplateProject\GeneratedFiles\SwaggerhubSpecs\ammarahmed-petstoreexample-1.0.0-resolved.json";
+string text = File.ReadAllText(jsonpath);
+List<string>? endpoints = new List<string>();
+
+JObject jsonObj = JObject.Parse(text);
+JObject pathsObj = (JObject)jsonObj["paths"];
+
+foreach (JProperty property in pathsObj.Properties())
+{
+    endpoints.Add(property.Name);
+    string name = property.Name;
+
+    Console.WriteLine($"path: {name}; Value: ");
+}
+#>
+
+
+
+<# /* *********** This is where the values get inserted into a controller *********** */ #>
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using TemplateProject.Queries;
+namespace TemplateProject.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class TemplateProjectGeneratedController : ControllerBase ControllerName
+    {
+        private readonly IMediator _mediatr;
+        private readonly ILogger<TemplateProjectController> _logger;
+        public TemplateProjectGeneratedController(ILogger<TemplateProjectController> logger, IMediator mediator)
+        {
+            _mediatr = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _logger = logger;
+        }
+<#
+foreach(string path in endpoints)
+{#>
+        [HttpGet(Name = "<#=path#>")]
+        public async Task<IActionResult> <#= GetControllerName(path) #>(int id)
+        {
+            List<WeatherForecast> result = await _mediatr.Send(new GetTemplateProjectQuery(id));
+            if (result == null) return NotFound();
+            return Ok(result);
+        }
+
+<#  }#>
+    } 
+}
+
+
+<# /* *********** helper function *********** */ #>
+
+<#+       
+public static string GetControllerName(string path)
+{
+    Regex word = new Regex(@"([^\/]+$)");
+    Match m = word.Match(path);
+    if (m.Value.Substring(0, 1) == "{")
+        return "Get" + char.ToUpper(m.Value[1]) + m.Value.Substring(2, m.Value.Length - 3);
+    else
+        return char.ToUpper(m.Value[0]) + m.Value.Substring(1);
+}
+#>

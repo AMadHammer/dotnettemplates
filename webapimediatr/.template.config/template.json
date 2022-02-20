@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Ammar Ahmed",
+  "classifications": [ "webapi", "mediatr", "Web", "API" ],
+  "identity": "WebAPI.With.Mediatr",
+  "name": "_WebAPI with mediatr",
+  "description": "Creates a template with configured mediatr pattern",
+  "shortName": "webapimediatr",
+  "sourceName" : "TemplateProject",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  }
+}
