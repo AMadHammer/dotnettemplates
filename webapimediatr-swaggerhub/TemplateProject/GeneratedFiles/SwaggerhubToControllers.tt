@@ -11,10 +11,12 @@
 <#@ import namespace="Newtonsoft.Json" #>
 <#@ import namespace="Newtonsoft.Json.Linq" #>
 <#@ import namespace="System.Text.RegularExpressions" #>
+
 <#@ output extension=".cs" #>
 <# /* ********** This is where you set up the variables ********** */ #>
 <#
-string ControllerName = "TemplateProjectGenerated";
+string DOMAINNAME = "TemplateProjectGenerated";
+string CONTROLLERNAME = DOMAINNAME + "Controller";
 
 string jsonpath = @"C:\Code\DotNet\ProjectTemplate\dotnettemplates\webapimediatr-swaggerhub\TemplateProject\GeneratedFiles\SwaggerhubSpecs\ammarahmed-petstoreexample-1.0.0-resolved.json";
 string text = File.ReadAllText(jsonpath);
@@ -42,11 +44,11 @@ namespace TemplateProject.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TemplateProjectGeneratedController : ControllerBase ControllerName
+    public class <#=CONTROLLERNAME#> : ControllerBase 
     {
         private readonly IMediator _mediatr;
         private readonly ILogger<TemplateProjectController> _logger;
-        public TemplateProjectGeneratedController(ILogger<TemplateProjectController> logger, IMediator mediator)
+        public <#=CONTROLLERNAME#>(ILogger<TemplateProjectController> logger, IMediator mediator)
         {
             _mediatr = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _logger = logger;
@@ -61,7 +63,6 @@ foreach(string path in endpoints)
             if (result == null) return NotFound();
             return Ok(result);
         }
-
 <#  }#>
     } 
 }

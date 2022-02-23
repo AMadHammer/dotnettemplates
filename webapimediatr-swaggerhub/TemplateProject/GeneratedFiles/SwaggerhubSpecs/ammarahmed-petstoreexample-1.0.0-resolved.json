@@ -48,7 +48,7 @@
       }
     }
   ],
-  "paths": {
+  "paths":  {
     "/pet": {
       "put": {
         "tags": [
