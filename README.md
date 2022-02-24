@@ -1,13 +1,14 @@
-# dotnettemplates
+# Usage
 
 
-.
+- See a list of all the available projects
 
-See a list of all the available projects
-dotnet --list
+`dotnet --list`
 
-To install the templates to be accessed anywhere
-dotnet new --install .
+- To install the templates to be accessed anywhere
 
-To create a project
-dotnet new webapimediatr-swaggerhub -o "wswaggerhub"
+`dotnet new --install .`
+
+- To create a project
+
+`dotnet new webapimediatr-swaggerhub -o "wswaggerhub"`
